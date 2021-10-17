@@ -1,0 +1,72 @@
+#### Transform date  #######################################
+
+import { Pipe, PipeTransform } from "@angular/core";
+import * as moment from "moment";
+
+@Pipe({
+  name: "momentdate"
+})
+export class MomentdatePipe implements PipeTransform {
+  transform(date) {
+    var dateformat = moment(date).format("MM-DD-YYYY");
+    return dateformat;
+  }
+}
+
+########## search item   ###################################
+
+import { Pipe, PipeTransform } from "@angular/core";
+import { Courses } from "../models/characteristics.model";
+
+@Pipe({
+  name: "search"
+})
+export class SearchPipe implements PipeTransform {
+  transform(items: Array<Courses>, searchText: string): any[] {
+    if (!items) return [];
+    if (!searchText) {
+      return items;
+    }
+    searchText = searchText.toLowerCase();
+    items = items.filter(it => {
+      return it.description.toLowerCase().includes(searchText);
+    });
+
+    return (items = items.slice(0, 5));
+  }
+}
+
+
+####### Sort ##########
+
+import { Pipe, PipeTransform } from "@angular/core";
+import { Courses } from "../models/characteristics.model";
+
+@Pipe({
+  name: "sort"
+})
+export class SortPipe implements PipeTransform {
+  transform(items: Array<Courses>, sortText: string, listsize: number): any[] {
+    if (!items) return [];
+    if (!sortText) {
+      items = items.sort(
+        (a, b) =>
+          new Date(b.selecteddate).getTime() -
+          new Date(a.selecteddate).getTime()
+      );
+      items = items.slice(0, listsize);
+      return items;
+    }
+
+    items = items.filter(it => {
+      return it.status === sortText;
+    });
+
+    items = items.sort(
+      (a, b) =>
+        new Date(b.selecteddate).getTime() - new Date(a.selecteddate).getTime()
+    );
+    items = items.slice(0, listsize);
+    return items;
+  }
+}

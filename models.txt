@@ -1,0 +1,46 @@
+export interface Courses {
+  courseid: string;
+  assessmentid: string;
+  category: string;
+}
+
+export interface CoursesMapDTO {
+  displayDefualtMessage: string;
+  categoryMap: Map<string, Array<Courses>>;
+}
+
+############################
+
+export class FormData {
+   questions: Array<Question>=[]
+
+    clear() {
+         this.questions=[];    
+    }
+}
+
+
+
+#######################################
+
+export interface Errors {
+  errors: {[key: string]: string};
+}
+
+
+###########################
+export class Link {
+  totalCount: number;
+  pageCountByregion: Map<String, number>;
+  userListByRegion: Map<String, Map<String, number>>;
+}
+
+
+###########################
+import { Question } from "./question.model";
+
+export class pagedata {
+  start: number;
+  end: number;
+  questions: Array<Question>;
+}
